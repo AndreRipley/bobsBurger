@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-
+    <title>Bob's Burgers - Payment Form</title>
     <meta charset="UTF-8" />
     <title>VGS Collect Payment Info Example</title>
     <script nonce="static-nonce" src="https://js.verygoodvault.com/vgs-collect/2.18.0/vgs-collect.js"></script>
   
 <script src="./form.js" defer></script>
 <link rel="stylesheet" href="./styles.css" />
+<style>
+  * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background-color: #f0f8ff;
+        color: #333;
+        line-height: 1.6;
+      }
+      header {
+        background: #1890ff;
+        color: #fff;
+        padding: 1rem 0;
+        text-align: center;
+      }
+
+      header h1 {
+        font-size: 2.4rem;
+      }
+</style>
 </head>
   <body>
+    <header>
+      <h1>Bob's Burgers - Secure Payment</h1>
+    </header>
     <form id="vgs-collect-form">
       <label>Name on card</label>
       <div id="cc-holder" class="form-field"></div>
@@ -25,7 +50,8 @@
           <div id="cc-cvc" class="form-field"></div>
         </div>
       </div>
-      <button type="submit">Test your form</button>
+      <button type="submit">Submit Payment</button>
     </form>
+    <div id="tokenized-display"></div>
   </body>
 </html>

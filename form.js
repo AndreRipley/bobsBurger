@@ -46,19 +46,45 @@ const cardExpDate = vgsForm.field('#cc-expiration-date', {
   css: css,
   });
 
-const submitVGSCollectForm = () => {
-   vgsForm.submit('/post', {}, (status, data) => {
-    if (status >= 200 && status <= 300) {
-      // Successful response
-      } else if (!status) {
-      // Network Error occured
+  const submitVGSCollectForm = () => {
+    vgsForm.submit('/post', {}, (status, response) => {
+      if (status >= 200 && status < 300) {
+        // Successful response: Extract tokenized values
+        const tokenizedData = response.data;
+  
+        // Display tokenized values on the current page
+        const displayContainer = document.createElement('div');
+        displayContainer.id = 'tokenized-display';
+        displayContainer.innerHTML = `
+          <h3>Tokenized Values Received</h3>
+          <p><strong>Card Holder:</strong> ${tokenizedData.card_holder || 'N/A'}</p>
+          <p><strong>Card Number:</strong> ${tokenizedData.card_number || 'N/A'}</p>
+          <p><strong>Expiration Date:</strong> ${tokenizedData.card_exp || 'N/A'}</p>
+          <p><strong>CVV:</strong> ${tokenizedData.card_cvc || 'N/A'}</p>
+        `;
+  
+        // Append to the body or a specific section of the page
+        const existingContainer = document.getElementById('tokenized-display');
+        if (existingContainer) {
+          existingContainer.replaceWith(displayContainer);
+        } else {
+          document.body.appendChild(displayContainer);
+        }
+      } else if (status === 0) {
+        // Network Error
+        alert('Network error occurred. Please try again.');
       } else {
-      // Server Error
+        // Server Error
+        alert('Error submitting the payment. Please try again.');
       }
-  }, (validationError) => {
-    // Form validation error
+    }, (validationErrors) => {
+      // Validation errors
+      alert('Form validation failed. Please check your inputs.');
+      console.log(validationErrors);
     });
-}
+  };
+  
+ 
 
 document.getElementById('vgs-collect-form').addEventListener('submit', (e) => {
   e.preventDefault();
